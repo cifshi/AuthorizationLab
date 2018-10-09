@@ -1,0 +1,66 @@
+﻿
+@using System.Security.Claims;
+@{
+    ViewData["Title"] = "Index";
+}
+
+<style>
+    h2 {
+        color: blue;
+    }
+
+    h1 {
+        color: green;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+        h1 span {
+            color: red;
+        }
+</style>
+
+<script>
+
+    var callMe = function () {
+        var time = Date();
+        alert(time);
+        var tag = document.getElementById("topTag");
+        tag.innerHTML = time;
+    };
+
+</script>
+
+
+<h2 style="font:large">before click : testing it out...</h2>
+<span>after click:</span>
+<h2 id="topTag" style="font:large" onclick="callMe()">click me...</h2>
+
+@if (!User.Identities.Any(u => u.IsAuthenticated))
+{
+    <h1>You can login but not authenticated</h1>
+}
+else
+{
+    <h1>
+        You have been authenticated as :: <span>
+            @User.Identities.First(
+        u => u.IsAuthenticated &&
+        u.HasClaim(c => c.Type == ClaimTypes.Name)).FindFirst(ClaimTypes.Name).Value
+        </span>
+    </h1>
+    <h1>
+        You have been authorized as :: @User.Identities.First(
+u => u.IsAuthenticated &&
+u.HasClaim(c => c.Type == ClaimTypes.Name)).FindFirst(ClaimTypes.Role).Value
+    </h1>
+    <h1>
+        You employee ID is :: @User.Identities.First(
+u => u.IsAuthenticated &&
+u.HasClaim(c => c.Type == "EmployeeId")).FindFirst("EmployeeId").Value
+    </h1>
+    <h1>
+        You age is :: @User.Identities.First(
+u => u.IsAuthenticated &&
+u.HasClaim(c => c.Type == ClaimTypes.DateOfBirth)).FindFirst(ClaimTypes.DateOfBirth).Value
+    </h1>
+}
