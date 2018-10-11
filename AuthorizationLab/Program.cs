@@ -14,7 +14,7 @@ namespace AuthorizationLab
     {
         public static void Main(string[] args)
         {
-            Console.WriteLine("begin to run..."+ DateTime.Now);
+            Console.WriteLine("begin to run..."+ DateTime.Now + " from "+Environment.MachineName);
             BuildWebHost(args).Run();
         }
 
